@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello WebSocket</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/main.css" rel="stylesheet">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+    <script src="http://d3js.org/d3.v3.js"></script>
+    <script src="/topojson.js"></script>
+    <script src="/datamaps.world.min.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="connect">Trader connection:</label>
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            
+        </div>
+    </div>
+    <div class="row">
+    	<div id="map_bombs" style="position: relative; width: 700px; height: 375px;">
+    		
+    	</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        <input type="hidden" id="langitute" value=""></input>
+        <input type="hidden" id="latitute" value=""></input>
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Trades</th>
+                </tr>
+                <tr>
+				     <th>User Id</th>
+				     <th>From</th>
+				     <th>To</th>
+				     <th>Sell</th>
+				     <th>Buy</th>
+				     <th>Rate</th>
+				     <th>Date</th>
+				     <th>Country Origin</th>
+				 </tr>
+                </thead>
+                <tbody id="trades">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+var bombMap = new Datamap({
+    element: document.getElementById('map_bombs'),
+    scope: 'world',
+    geographyConfig: {
+        popupOnHover: false,
+        highlightOnHover: false
+    },
+    fills: {
+    	'PIN': '#d62728',
+        defaultFill: '#EDDC4E'
+    },
+    data: {
+        
+    }
+});
+
+//draw bubbles for bombs
+bombMap.bubbles(bombs, {
+    popupTemplate:function (geography, data) { 
+            return ['<div class="hoverinfo"><strong>' +  data.name + '</strong>',
+            '<br/>Payload: ' +  data.yeild + ' kilotons',
+            '<br/>Country: ' +  data.country + '',
+            '<br/>Date: ' +  data.date + '',
+            '</div>'].join('');
+    }
+});
+</script>
+</html>
