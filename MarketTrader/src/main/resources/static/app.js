@@ -52,7 +52,7 @@ function disconnect() {
 function showGreeting(message) {
 	console.log("message:" + message);
 	var innerHtml = null;
-	
+	bombs = [];
 	for(var i = 0 ; i< message.length ; i++) {
 		var uri = "https://restcountries.eu/rest/v2/alpha/" + message[i].originatingCountry;
 		var lan = null;
@@ -79,7 +79,10 @@ function showGreeting(message) {
 		newObj.date = message[i].timePlaced;
 		newObj.country = message[i].originatingCountry;
 		
-		bombs.push(newObj);
+		if(newObj.latitude != null && newObj.longitude != null) {
+			bombs.push(newObj);
+		}
+		
 		
 		innerHtml += "<tr><td>" + message[i].userId  + "</td><td>" 
 						+ message[i].currencyFrom + "</td><td>"
